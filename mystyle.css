@@ -1,0 +1,26 @@
+.button-style {
+    background-color: rgb(90, 9, 9);
+    width: 100px;
+    height: 60px;
+    color: rgb(255, 255, 255);
+}
+
+.hidden {
+    display: none;
+}
+
+.padding-bottom {
+    padding-bottom: 30px;
+}
+
+h1 {
+    font-size: 50px;
+    color: rgb(77, 10, 23);
+    text-align: center;
+}
+
+p {
+    font-size: 25px;
+    text-align: center;
+
+}
