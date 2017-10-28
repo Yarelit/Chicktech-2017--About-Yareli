@@ -18,9 +18,9 @@
     //These three functions are required for phaser!
     //Preload loads everything your game needs - sprites, images, etc
     function preload() {
-        game.load.image('sky', 'assets/sky.png');
+        game.load.image('sky', 'assets/shutterstock_260135678.jpg');
         game.load.image('ground', 'assets/platform.png');
-        game.load.spritesheet('hp', 'assets/hpsprite.png', 32, 48);
+        game.load.spritesheet('hp', 'assets/SNES - The Adventures of Batman and Robin - Poison Ivy.png', 100, 100);
 
     }
 
@@ -28,7 +28,7 @@
     function create() {
 
         //add the sky
-        game.add.sprite(0, 0, 'sky');
+        game.add.sprite(0, 0, 'assets/shutterstock_260135678.jpg');
 
         //add a group to hold the ground
         platforms = game.add.group();
@@ -37,7 +37,7 @@
         platforms.enableBody = true;
 
         // Here we create the ground.
-        var ground = platforms.create(0, game.world.height - 64, 'ground');
+        var ground = platforms.create(0, game.world.height - 65, 'ground');
 
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
         ground.scale.setTo(2, 2);
@@ -47,7 +47,7 @@
 
         //add player
         //the first 2 arguments are x and y, then the last is the key of your image
-        player = game.add.sprite(32, game.world.height - 150, 'hp');
+        player = game.add.sprite(32, game.world.height - 200, 'hp');
 
         //enable physics on player
         game.physics.arcade.enable(player);
@@ -55,8 +55,8 @@
         //give player gravity
         player.body.gravity.y = 300;
 
-        player.animations.add('left', [4, 5, 6, 7], 10, true);
-        player.animations.add('right', [8, 9, 10, 11], 10, true);
+        player.animations.add('left', [3, 4], 3, true);
+        player.animations.add('right', [12, 13, 14, 26, 27], 27, true);
 
 
         //  Our controls.
