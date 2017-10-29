@@ -18,17 +18,21 @@
     //These three functions are required for phaser!
     //Preload loads everything your game needs - sprites, images, etc
     function preload() {
-        game.load.image('sky', 'assets/shutterstock_260135678.jpg');
-        game.load.image('ground', 'assets/platform.png');
-        game.load.spritesheet('hp', 'assets/SNES - The Adventures of Batman and Robin - Poison Ivy.png', 100, 100);
+        game.load.image('castle', 'assets/FreeVector-Halloween-Castle.jpg');
+        game.load.image('ground', 'assets/5e4a7844c1a0404097b3246197ec0b58--texture-walls-d-texture.jpg');
+        game.load.image('blood', 'assets/blood.png');
+        game.load.image('garlic', 'assets/Garlic.png');
+        game.load.image('mary', 'assets/mary.png');
+        game.load.spritesheet('vampire', 'assets/gallery_10621_12_5599.png', 48, 47);
 
     }
-
+    var score = 0;
+    var scoreText;
     //Create sets up your game for you - most of your code will probably be here!
     function create() {
 
         //add the sky
-        game.add.sprite(0, 0, 'assets/shutterstock_260135678.jpg');
+        game.add.sprite(-100,-300, 'castle');
 
         //add a group to hold the ground
         platforms = game.add.group();
@@ -47,7 +51,7 @@
 
         //add player
         //the first 2 arguments are x and y, then the last is the key of your image
-        player = game.add.sprite(32, game.world.height - 200, 'hp');
+        player = game.add.sprite(32, game.world.height - 200, 'vampire');
 
         //enable physics on player
         game.physics.arcade.enable(player);
@@ -55,12 +59,27 @@
         //give player gravity
         player.body.gravity.y = 300;
 
-        player.animations.add('left', [3, 4], 3, true);
-        player.animations.add('right', [12, 13, 14, 26, 27], 27, true);
+        player.animations.add('left', [4, 5, 6, 7,], 0, true);
+        player.animations.add('right', [9, 10, 11], 0, true);
+        // player.animations.add('up', [12, 13, 14, 15], 0, true);
 
-
+        
         //  Our controls.
         cursors = game.input.keyboard.createCursorKeys();
+        bloods = game.add.group();
+
+        garlics = game.add.group();
+
+        bloods.enableBody = true;
+
+        garlics.enableBody = true;
+
+        scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        
+        timer=game.time.create();
+        timer.start();
+        timer.loop(400, createblood);
+        timer.loop(400, creategarlic);
 
     }
 
@@ -72,7 +91,7 @@
     game.physics.arcade.collide(player, platforms);
 
       //  Reset the players velocity (movement)
-      player.body.velocity.x = 0;
+      player.body.velocity.x = 25;
 
         //left key control
         if (cursors.left.isDown)
@@ -98,12 +117,56 @@
 
             player.frame = 0;
         }
+            //game.physics.arcade.collide(bloods, platforms);
+             game.physics.arcade.overlap(player, bloods, collectBlood, null, this);
 
+            // game.physics.arcade.collide(garlics, platforms);
+             game.physics.arcade.overlap(player,garlics, collectgarlic, null, this);
+
+
+             
     }
 
-    //add any extra functions you need here! 
+   //add any extra functions you need here! 
+   function collectBlood (player, blood) {
 
+        // Removes the star from the screen
+        blood.kill();
 
+        //  Add and update the score
+        score += 10;
+        scoreText.text = 'Score: ' + score;
+   }  
+        
+        
+    function createblood(){
+        var xLocation= Math.random()* 600;
+        
+        var blood = bloods.create(xLocation, 0, 'blood');
+
+         //  Let gravity do its thing
+        blood.body.gravity.y =100;
+
+        //  This just gives each star a slightly random bounce value
+        blood.body.bounce.y = 0.8 + Math.random() * 0.2;
+            
+    }
+
+    function creategarlic() {
+        var xLocation = Math.random() * 800;
+        var garlic = garlics.create(xLocation, 0, 'garlic');
+        garlic.body.gravity.y =95;
+      
+    }
+    function collectgarlic(player,garlic) {
+
+        // Removes the star from the screen
+       garlic.kill();
+
+        //  Add and update the score
+        score += -30;
+        scoreText.text = 'Score: ' + score;
+    }
 </script>
 
 </body>
